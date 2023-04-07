@@ -55,6 +55,22 @@ void displayAvailableBooks(struct Book books[],int numBooks) {
     }
 }
 
+void BorrowedBooksReport(struct Book books[], int numBooks, struct students student) {
+    int i,count=0;
+    
+    printf("Borrowed books report:\n");
+    
+    for (i = 0; i < numBooks; i++) {
+        if (books[i].borrowed == 1) {
+            printf("%d. %s by %s - Borrowed by %s.\n", books[i].id, books[i].title, books[i].author, student.student_ID);
+            count++;
+        }
+    }
+    if (count == 0) {
+        printf("No books are currently borrowed by students.\n");
+    }
+}
+
 void returnBook(struct Book books[], int id, struct students student) {
     int i;
     char studentID[14];
@@ -112,7 +128,7 @@ int main() {
  
         printf("                                     2. Borrow a book                                        4. Display available books\n");
                  
-        printf("                                                                5. Exit\n");
+        printf("                                     5. Display Borrowed books                               6. Exit\n");
         
         
        printf("                                                                Enter your choice: ");
@@ -151,11 +167,13 @@ int main() {
                 displayAvailableBooks(books, numBooks);
                 break;
             case 5:
+                BorrowedBooksReport(books, numBooks, student);    
+            case 6:
                 break;
             default:
                 printf("Invalid choice.\n");
         }
-    } while (choice != 5);
+    } while (choice != 6);
     } else {
         printf("Invalid username or password. Try again");
     }
