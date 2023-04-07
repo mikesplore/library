@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
 
 struct Book {
     char title[100];
     char author[100];
     int id;
     int borrowed;
+    int duration;
 };
 
 struct students {
@@ -13,15 +17,18 @@ struct students {
     char name[100];
 };
 
+int rando() {
+    srand(time(NULL));
+    return rand() % 9000 + 1000;
+   
+}
 void borrowBook(struct Book books[], int id, struct students *student) {
-    int i;
+    int i = 0;
     char admNo[14];
     
     printf("Enter Admission Number: ");
     scanf("%s", admNo);
-   
-
-    
+       
     if (strcmp(admNo, student->admNo) != 0) {
         printf("Invalid admission number. Double check your admission number and try again.\n");
         return;
@@ -30,16 +37,24 @@ void borrowBook(struct Book books[], int id, struct students *student) {
     for (i = 0; i < 1000; i++) {
         if (books[i].id == id) {
             if (books[i].borrowed == 0) {
-                books[i].borrowed = 1;
-                printf("Book borrowed successfully by student %s!\n", student->name);
+                printf("Enter return period. Not more than 14 days: ");
+                scanf("%d",&books[i].duration);
+                
+                if(books[i].duration<=14){
+                    books[i].borrowed = 1;
+                    printf("Book borrowed successfully by %s!\n", student->name);
+                } else {
+                    printf("Please enter a period between 1 to 14 days.\n");
+                }
             } else {
-                printf("Sorry, this book is already borrowed. Please coma back later.\n");
+                printf("Sorry, this book is already borrowed. Please come back later.\n");
             }
             return;
         }
     }
     printf("Sorry, book not found.\n");
 }
+
 
 void displayAvailableBooks(struct Book books[],int numBooks) {
     int i,count=0;
@@ -72,7 +87,6 @@ void BorrowedBooksReport(struct Book books[], int numBooks, struct students stud
         printf("No books are currently borrowed by students.\n");
     }
 }
-
 void returnBook(struct Book books[], int id, struct students student) {
     int i;
     char admNo[14];
@@ -80,7 +94,7 @@ void returnBook(struct Book books[], int id, struct students student) {
     
     printf("Enter student ID: ");
     scanf("%s", admNo);
-
+           
     
     if (strcmp(admNo, student.admNo) != 0) {
         printf("Invalid student ID.\n");
@@ -106,29 +120,36 @@ int main() {
     char usrname[50], passwd[50];
     char username[] = "admin";
     char password[] = "password";
+    int otp;
+    int randomnumber=rando();
+    
+    
     printf("----------------------------------------------------------STUDENTS LIBRARY MANAGEMENT SYSTEM--------------------------------------------\n");
 
    printf("                                                          Enter your creditentials to continue\n\n");
     printf("                                                              Enter your username: ");
     scanf("%s", usrname);
 
-    printf("                                                                   Enter password: ");
+    printf("                                                              Enter password     : ");
     scanf("%s", passwd);
     
     if(strcmp(usrname, username) == 0 && strcmp(passwd, password) == 0) {
         printf("\n");
-        printf("                                                                    Login success!\n\n");
+        printf("                                                        Login success! your 4 digit OTP is %d\n\n",randomnumber);
         printf("                                                         Enter your admission Number (bscs001j2023): ");
-        scanf("%s", student.admNo);
+        scanf("%s", &student.admNo);
         printf("                                                         Enter your First Name: ");
-        scanf("%s",student.name);
+        scanf("%*c");
+        scanf(" %s",&student.name);
+       
+       
         struct Book books[1000];
         int numBooks = 0;
         int choice, bookID;
     
 
     do {
-        printf("\n.-------------------------------------------Welcome, %s! Enter your choice to continue.-------------------------------------------\n\n",student.name);
+        printf(".\n\n-------------------------------------------Hello %s, Choose one of the options below.-------------------------------------------\n\n",student.name);
         printf("                                     1. Register new book                                    3. Return a book\n");
  
         printf("                                     2. Borrow a book                                        4. Display available books\n");
@@ -140,48 +161,80 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1:
-                if (numBooks >= 1000) {
-                    printf("Maximum number of books exceeded.\n");
-                    break;
-                }
-                printf("Enter book title: ");
-                getchar();
-                fgets( books[numBooks].title,100,stdin);
-                printf("Enter book author: ");
-                fgets(books[numBooks].author,100,stdin);
-                printf("Enter book ID: ");
-                scanf("%d", &books[numBooks].id);
-                books[numBooks].borrowed = 0;
-                printf("The book has been registered successfully!\n");
-                numBooks++;
-                break;
-            case 2:
-                printf("Enter book ID to borrow: ");
-                scanf("%d", &bookID);
-              
-                borrowBook(books, bookID, &student);
-                break;
-            case 3:
-                printf("Enter book ID to return: ");
-                scanf("%d", &bookID);
-                
-                returnBook(books, bookID, student);
-                break;
-            case 4:
-                displayAvailableBooks(books, numBooks);
-                break;
-            case 5:
-                BorrowedBooksReport(books, numBooks, student);    
-            case 6:
-                break;
-            default:
-                printf("Invalid choice.\n");
+    case 1:
+        if (numBooks >= 1000) {
+            printf("Maximum number of books exceeded.\n");
+            break;
         }
-    } while (choice != 6);
+        printf("Enter book title: ");
+        getchar();
+        fgets(books[numBooks].title, 100, stdin);
+        printf("Enter book author: ");
+        fgets(books[numBooks].author, 100, stdin);
+        printf("Enter book ID: ");
+        scanf("%d", &books[numBooks].id);
+        printf("Enter OTP: ");
+        scanf("%d", &otp); // pass the address of the otp variable
+        if (otp == randomnumber) {
+            books[numBooks].borrowed = 0;
+            printf("The book has been registered successfully!\n");
+            numBooks++;
+        } else {
+            printf("OTP is incorrect\n");
+        }
+        break; // add a break statement to end the case
+
+    case 2:
+    printf("Enter book ID to borrow: ");
+    scanf("%d", &bookID);
+
+    printf("Enter OTP: ");
+    scanf("%d", &otp);
+
+    if (otp == randomnumber) {
+        borrowBook(books, bookID, &student);
     } else {
+        printf("OTP is incorrect\n");
+    }
+    
+    break;
+case 3:
+    printf("Enter book ID to return: ");
+    scanf("%d", &bookID);
+
+    printf("Enter OTP: ");
+    scanf("%d", &otp);
+
+    if (otp == randomnumber) {
+        returnBook(books, bookID, student);
+    } else {
+        printf("OTP is incorrect\n");
+    }
+    
+    break;
+
+
+    case 4:
+        displayAvailableBooks(books, numBooks);
+        break;
+
+    case 5:
+        BorrowedBooksReport(books, numBooks, student);
+        break;
+
+    case 6:
+        break;
+
+    default:
+        printf("Invalid choice.\n");
+}
+
+} while (choice != 6);
+
+    } 
+    else {
         printf("\n                                                          Invalid username or password. Try again");
     }
-
+    
     return 0;
 }
