@@ -9,12 +9,12 @@ struct Book {
 };
 
 struct students {
-    char student_ID[12];
+    char student_ID[14];
 };
 
 void borrowBook(struct Book books[], int id, struct students *student) {
     int i;
-    char studentID[12];
+    char studentID[14];
     
     printf("Enter student ID: ");
     scanf("%s", studentID);
@@ -57,7 +57,7 @@ void displayAvailableBooks(struct Book books[],int numBooks) {
 
 void returnBook(struct Book books[], int id, struct students student) {
     int i;
-    char studentID[12];
+    char studentID[14];
     
     printf("Enter student ID: ");
     scanf("%s", studentID);
@@ -87,31 +87,35 @@ int main() {
     char usrname[50], passwd[50];
     char username[] = "admin";
     char password[] = "password";
+    printf("--------------------------------------------STUDENTS LIBRARY MANAGEMENT SYSTEM--------------------------------------------\n");
 
-    printf("Enter your username: ");
+   printf("                                        Enter your creditentials to continue\n\n");
+    printf("                                                 Enter your username: ");
     scanf("%s", usrname);
 
-    printf("Enter password: ");
+    printf("                                                  Enter password: ");
     scanf("%s", passwd);
-
+    
     if(strcmp(usrname, username) == 0 && strcmp(passwd, password) == 0) {
-        printf("Enter student ID: ");
+        printf("                                                     Login success!\n\n");
+        printf("                                              Enter student ID: ");
         scanf("%s", student.student_ID);
-
+        
         struct Book books[100];
         int numBooks = 0;
         int choice, bookID;
     
-    printf("--------------------------------------------STUDENTS LIBRARY MANAGEMENT SYSTEM--------------------------------------------\n");
 
     do {
-        printf("\n------------------Welcome to the students Library Management system. Enter your choice to continue.-----------------------\n");
-        printf("1. Register a new book\n");
-        printf("2. Borrow a book\n");
-        printf("3. Return a book\n");
-        printf("4. Display available books\n");
-        printf("5. Exit\n");
-        printf("Enter your choice: ");
+        printf("\n.-------------------------------------------Welcome, %s! Enter your choice to continue.-------------------------------------------\n\n",student.student_ID);
+        printf("                                     1. Register new book                                    3. Return a book\n");
+ 
+        printf("                                     2. Borrow a book                                        4. Display available books\n");
+                 
+        printf("                                                                5. Exit\n");
+        
+        
+       printf("                                                                Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
