@@ -9,19 +9,21 @@ struct Book {
 };
 
 struct students {
-    char student_ID[14];
+    char admNo[14];
+    char name[100];
 };
 
 void borrowBook(struct Book books[], int id, struct students *student) {
     int i;
-    char studentID[14];
+    char admNo[14];
     
-    printf("Enter student ID: ");
-    scanf("%s", studentID);
+    printf("Enter Admission Number: ");
+    scanf("%s", admNo);
+   
 
     
-    if (strcmp(studentID, student->student_ID) != 0) {
-        printf("Invalid student ID.\n");
+    if (strcmp(admNo, student->admNo) != 0) {
+        printf("Invalid admission number. Double check your admission number and try again.\n");
         return;
     }
 
@@ -29,9 +31,9 @@ void borrowBook(struct Book books[], int id, struct students *student) {
         if (books[i].id == id) {
             if (books[i].borrowed == 0) {
                 books[i].borrowed = 1;
-                printf("Book borrowed successfully by student %s!\n", student->student_ID);
+                printf("Book borrowed successfully by student %s!\n", student->name);
             } else {
-                printf("Sorry, this book is already borrowed.\n");
+                printf("Sorry, this book is already borrowed. Please coma back later.\n");
             }
             return;
         }
@@ -62,7 +64,7 @@ void BorrowedBooksReport(struct Book books[], int numBooks, struct students stud
     
     for (i = 0; i < numBooks; i++) {
         if (books[i].borrowed == 1) {
-            printf("%d. %s by %s - Borrowed by %s.\n", books[i].id, books[i].title, books[i].author, student.student_ID);
+            printf("%d. %s by %s - Borrowed by %s.\n", books[i].id, books[i].title, books[i].author, student.name);
             count++;
         }
     }
@@ -73,13 +75,14 @@ void BorrowedBooksReport(struct Book books[], int numBooks, struct students stud
 
 void returnBook(struct Book books[], int id, struct students student) {
     int i;
-    char studentID[14];
+    char admNo[14];
+   
     
     printf("Enter student ID: ");
-    scanf("%s", studentID);
+    scanf("%s", admNo);
 
     
-    if (strcmp(studentID, student.student_ID) != 0) {
+    if (strcmp(admNo, student.admNo) != 0) {
         printf("Invalid student ID.\n");
         return;
     }
@@ -88,7 +91,7 @@ void returnBook(struct Book books[], int id, struct students student) {
         if (books[i].id == id) {
             if (books[i].borrowed == 1) {
                 books[i].borrowed = 0;
-                printf("The book has been returned successfully by student %s!\n", student.student_ID);
+                printf("The book has been returned successfully by student %s!\n", student.name);
             } else {
                 printf("Sorry, this book is not currently borrowed.\n");
             }
@@ -103,27 +106,29 @@ int main() {
     char usrname[50], passwd[50];
     char username[] = "admin";
     char password[] = "password";
-    printf("--------------------------------------------STUDENTS LIBRARY MANAGEMENT SYSTEM--------------------------------------------\n");
+    printf("----------------------------------------------------------STUDENTS LIBRARY MANAGEMENT SYSTEM--------------------------------------------\n");
 
-   printf("                                        Enter your creditentials to continue\n\n");
-    printf("                                                 Enter your username: ");
+   printf("                                                          Enter your creditentials to continue\n\n");
+    printf("                                                              Enter your username: ");
     scanf("%s", usrname);
 
-    printf("                                                  Enter password: ");
+    printf("                                                                   Enter password: ");
     scanf("%s", passwd);
     
     if(strcmp(usrname, username) == 0 && strcmp(passwd, password) == 0) {
-        printf("                                                     Login success!\n\n");
-        printf("                                              Enter student ID: ");
-        scanf("%s", student.student_ID);
-        
+        printf("\n");
+        printf("                                                                    Login success!\n\n");
+        printf("                                                         Enter your admission Number (bscs001j2023): ");
+        scanf("%s", student.admNo);
+        printf("                                                         Enter your First Name: ");
+        scanf("%s",student.name);
         struct Book books[1000];
         int numBooks = 0;
         int choice, bookID;
     
 
     do {
-        printf("\n.-------------------------------------------Welcome, %s! Enter your choice to continue.-------------------------------------------\n\n",student.student_ID);
+        printf("\n.-------------------------------------------Welcome, %s! Enter your choice to continue.-------------------------------------------\n\n",student.name);
         printf("                                     1. Register new book                                    3. Return a book\n");
  
         printf("                                     2. Borrow a book                                        4. Display available books\n");
@@ -175,7 +180,7 @@ int main() {
         }
     } while (choice != 6);
     } else {
-        printf("Invalid username or password. Try again");
+        printf("\n                                                          Invalid username or password. Try again");
     }
 
     return 0;
