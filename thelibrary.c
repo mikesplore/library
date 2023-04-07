@@ -25,7 +25,7 @@ void borrowBook(struct Book books[], int id, struct students *student) {
         return;
     }
 
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 1000; i++) {
         if (books[i].id == id) {
             if (books[i].borrowed == 0) {
                 books[i].borrowed = 1;
@@ -101,7 +101,7 @@ int main() {
         printf("                                              Enter student ID: ");
         scanf("%s", student.student_ID);
         
-        struct Book books[100];
+        struct Book books[1000];
         int numBooks = 0;
         int choice, bookID;
     
@@ -120,7 +120,7 @@ int main() {
 
         switch (choice) {
             case 1:
-                if (numBooks >= 100) {
+                if (numBooks >= 1000) {
                     printf("Maximum number of books exceeded.\n");
                     break;
                 }
