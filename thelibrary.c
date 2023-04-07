@@ -79,7 +79,7 @@ void BorrowedBooksReport(struct Book books[], int numBooks, struct students stud
     
     for (i = 0; i < numBooks; i++) {
         if (books[i].borrowed == 1) {
-            printf("%d. %s by %s - Borrowed by %s due in %d days.\n", books[i].id, books[i].title, books[i].author, student.name,books);
+            printf("%d. %s by %s - Borrowed by %s due in %d days.\n", books[i].id, books[i].title, books[i].author, student.name,books[i].duration);
             count++;
         }
     }
