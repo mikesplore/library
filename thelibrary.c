@@ -79,7 +79,7 @@ void BorrowedBooksReport(struct Book books[], int numBooks, struct students stud
     
     for (i = 0; i < numBooks; i++) {
         if (books[i].borrowed == 1) {
-            printf("%d. %s by %s - Borrowed by %s.\n", books[i].id, books[i].title, books[i].author, student.name);
+            printf("%d. %s by %s - Borrowed by %s due in %d days.\n", books[i].id, books[i].title, books[i].author, student.name,books);
             count++;
         }
     }
@@ -174,7 +174,7 @@ int main() {
         printf("Enter book ID: ");
         scanf("%d", &books[numBooks].id);
         printf("Enter OTP: ");
-        scanf("%d", &otp); // pass the address of the otp variable
+        scanf("%d", &otp); 
         if (otp == randomnumber) {
             books[numBooks].borrowed = 0;
             printf("The book has been registered successfully!\n");
@@ -182,7 +182,7 @@ int main() {
         } else {
             printf("OTP is incorrect\n");
         }
-        break; // add a break statement to end the case
+        break; 
 
     case 2:
     printf("Enter book ID to borrow: ");
